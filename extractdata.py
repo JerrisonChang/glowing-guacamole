@@ -43,10 +43,11 @@ def create_interaction_matrix_of_std(student_Id: str, data, KC_list: list, std_i
     # result = [0]*len(KC_list) + [0]
     result = []
     for row in data:
+        
         interaction_row = [0]*len(KC_list) + [0]
         std_Id = row[std_idx]
         if std_Id != student_Id: 
-            print(f"Not the same! ({std_Id} and {student_Id} )")
+            # print(f"Not the same! ({std_Id} and {student_Id} )")
             continue
 
         KC_component = row[KC_indx]
@@ -58,9 +59,10 @@ def create_interaction_matrix_of_std(student_Id: str, data, KC_list: list, std_i
 
         # set the outcome bit if the student get it right
         if outcome.lower() == "correct":
-            outcome_bit_idx[-1] = 1
+            interaction_row[-1] = 1
 
         result.append(interaction_row)
+    
     return result
 
 
@@ -73,7 +75,16 @@ if __name__ == "__main__":
         
         st_ID_indx, outcome_indx, KC_indx = get_col_indexes(header)
         KC_list = get_component_list(span, KC_indx)
-        print(st_ID_indx, KC_indx, outcome_indx)
-        # print(len(get_component_list(span, KC_indx)))
         
-        print(len(create_interaction_matrix_of_std("Stu_02ee1b3f31a6f6a7f4b8012298b2395e",span, KC_list,st_ID_indx,outcome_indx,KC_indx)))
+    print(st_ID_indx, KC_indx, outcome_indx)
+
+    with open(path, 'r', newline='') as csv_file:
+        span = csv.reader(csv_file)
+        st_Id = "Stu_02ee1b3f31a6f6a7f4b8012298b2395e"
+        
+        args = (st_Id, span, KC_list, st_ID_indx, outcome_indx, KC_indx)
+        interaction_matrix = create_interaction_matrix_of_std(*args)
+        
+        print(len(interaction_matrix))
+    
+    
