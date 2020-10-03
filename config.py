@@ -1,6 +1,6 @@
 import csv
 
-with open('data.csv', 'r') as f:
+with open('All_data.csv', 'r') as f:
     reader = csv.DictReader(f)
     KC_set = set()
     for row in reader:
@@ -40,3 +40,4 @@ with open('data.csv', 'r') as f:
             y.append(1)
         else:
             y.append(0)
+
