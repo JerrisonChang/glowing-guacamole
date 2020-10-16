@@ -50,6 +50,8 @@ def load_dataset(fn, batch_size=32, shuffle=True):
     )
     nb_users = len(seq)
 
+    print(seq)
+
     # Step 5 - Get Tensorflow Dataset
     dataset = tf.data.Dataset.from_generator(
         generator=lambda: seq,
