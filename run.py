@@ -1,41 +1,46 @@
-import argparse
-
 import tensorflow as tf
+import config
+import numpy as np
+from tensorflow import keras
+from tensorflow.keras import layers
 
-import config, dkt, metrics
+# Build the RNN model
+def build_model(units, input_dim, output_size, LSTM=True):
+    # Builds model using LSTM RNN
+    if LSTM:
+        # The LSTM layer with default options
+        layer = keras.layers.LSTM(units, input_shape=(None, input_dim))
 
-def run(file):
-    dataset, length, nb_features, nb_skills = config.load_dataset(fn=file, batch_size=1, shuffle=True)
+    #Builds model using simple RNN
+    else:
+        # The RNN layer with default options
+        layer = keras.layers.RNN(keras.layers.RNNCell(units), input_shape=(None, input_dim))
 
-    train_set, test_set, val_set = config.split_dataset(dataset=dataset, total_size=length, test_fraction=0.2, val_fraction=0.2)
+    model = keras.models.Sequential(
+        [
+            layer,
+            keras.layers.BatchNormalization(),
+            keras.layers.Dense(output_size),
+        ]
+    )
+    return model
 
-    print("[----- COMPILING  ------]")
-    model = dkt.DKTModel(nb_features=nb_features, nb_skills=nb_skills, hidden_units=100 ,dropout_rate=0.3)
+x, y = config.load_dataset(open('All_data.csv'))
 
-    model.compile(
-        optimizer='adam',
-        metrics=[
-            metrics.BinaryAccuracy(),
-            metrics.AUC(),
-            metrics.Precision(),
-            metrics.Recall()
-        ])
+batch_size = x.shape[0]
+# Each batch is a tensor of shape (students, questions, skill).
+# Each input sequence will be of size (question, skill).
+input_dim = x.shape[2]
 
-    print(model.summary())
-    print("\n[-- COMPILING DONE  --]")
+units = batch_size
+output_size = 2  # labels are from 0 to 1
 
-    print("\n[----- TRAINING ------]")
-    model.fit(
-        dataset=train_set,
-        epochs=1,
-        verbose=1,
-        validation_data=val_set)
-    print("\n[--- TRAINING DONE ---]")
+model = build_model(units, input_dim, output_size, LSTM=True)
 
-    print("[----- TESTING  ------]")
-    model.load_weights("weights/bestmodel")
-    model.evaluate(dataset=test_set, verbose=1)
-    print("\n[--- TESTING DONE  ---]")
+model.compile(
+    loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    optimizer="sgd",
+    metrics=["accuracy"],
+)
 
-if __name__ == "__main__":
-    run('All_data.csv')
+model.fit(x, y, validation_split=0.2, batch_size=batch_size, epochs=1)
