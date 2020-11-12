@@ -30,22 +30,34 @@ def create_train_and_predict_data(clean_data_path: str, ratio: float = 0.2):
     with open(clean_data_path, 'r') as f:
         content = f.readlines()
     
-    predict_amount = math.floor(len(content)*ratio)
-    predict_set = random.sample(content,predict_amount)
-    
-    for i in predict_set:
-        content.remove(i)
-    
     head, tail = os.path.split(clean_data_path)
-    training_name = tail.replace('.txt', '_training.txt')
-    training_set_path = os.path.join(head, training_name)
-    with open(training_set_path, 'w') as f:
-        f.writelines(content)
+
+    # arrange the interaction by student
+    student_to_interaction:dict = {}
+    for line in content:
+        student_id = line.split("\t")[1]
+        if student_id not in student_to_interaction:
+            student_to_interaction[student_id] = [line]
+        else:
+            student_to_interaction[student_id].append(line)
     
-    predicting_name = tail.replace('.txt', '_predicting.txt')
-    predicting_set_path = os.path.join(head, predicting_name)
-    with open(predicting_set_path, 'w') as f:
-        f.writelines(predict_set)
+    # create train test sets for each student
+    for student, interactions in student_to_interaction.items():
+        predict_amount = math.ceil(len(interactions)*ratio)
+        predict_set = random.sample(interactions, predict_amount)
+        
+        for i in predict_set:
+            interactions.remove(i) # remove testing sets from training set
+    
+        training_name = tail.replace('.txt', f'{student}_training.txt')
+        training_set_path = os.path.join(head, "train", training_name)
+        with open(training_set_path, 'w') as f:
+            f.writelines(interactions)
+        
+        predicting_name = tail.replace('.txt', f'{student}_predicting.txt')
+        predicting_set_path = os.path.join(head, "predict" ,predicting_name)
+        with open(predicting_set_path, 'w') as f:
+            f.writelines(predict_set)
 
 
 if __name__ == "__main__":
