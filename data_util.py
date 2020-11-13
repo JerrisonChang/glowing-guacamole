@@ -110,3 +110,35 @@ def get_target(y_true, y_pred):
     y_pred = tf.reduce_sum(y_pred * skills, axis=-1, keepdims=True)
 
     return y_true, y_pred
+
+def get_answers(fn):
+    df = pd.read_csv(fn)
+
+    # Step 1.1 - Remove questions without skill
+    df.dropna(subset=['KC (Textbook)'], inplace=True)
+
+    # Step 1.2 - Remove users with a single answer
+    df = df.groupby('Anon Student Id').filter(lambda q: len(q) > 1).copy()
+
+    # Step 2 - Enumerate skill id
+    df['skill'], _ = pd.factorize(df['KC (Textbook)'], sort=True)
+
+    correct = list()
+    for entry in df['Outcome']:
+        if entry == 'CORRECT':
+            correct.append(1)
+        else:
+            correct.append(0)
+    df['correct'] = correct
+
+    all_answers = list()
+    for student in df['Anon Student Id'][:12]:
+        answers = list()
+        temp = df[df['Anon Student Id'] == student]
+        
+        for i in range(len(temp.index)):
+            answers.append((temp['skill'][i], temp['correct'][i]))
+
+        all_answers.append(answers)
+
+    return all_answers
