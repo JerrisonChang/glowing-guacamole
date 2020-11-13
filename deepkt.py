@@ -16,12 +16,16 @@ class DKTModel(tf.keras.Model):
             and what the model expects.
     """
 
-    def __init__(self, nb_features, nb_skills, hidden_units=100):
+    def __init__(self, nb_features, nb_skills, hidden_units=100, LSTM=False):
         inputs = tf.keras.Input(shape=(None, nb_features), name='inputs')
 
         x = tf.keras.layers.Masking(mask_value=data_util.MASK_VALUE)(inputs)
 
-        x = tf.keras.layers.LSTM(hidden_units,
+        if LSTM:
+            x = tf.keras.layers.LSTM(hidden_units,
+                                 return_sequences=True)(x)
+        else:
+            x = tf.keras.layers.SimpleRNN(hidden_units,
                                  return_sequences=True)(x)
 
         dense = tf.keras.layers.Dense(nb_skills, activation='sigmoid')
@@ -155,3 +159,12 @@ class DKTModel(tf.keras.Model):
         """
         return super(DKTModel, self).evaluate(dataset,
                                               verbose=verbose)
+
+    def get_predictions(self, test_set):
+        pred_list = list()
+        test_list = list(test_set)
+        for i in range(len(test_list)):
+            pred = super(DKTModel, self).predict(test_list[i])
+            pred_list.append(pred)
+
+        return pred_list

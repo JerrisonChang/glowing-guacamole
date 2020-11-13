@@ -18,7 +18,7 @@ def run(args):
     print("[----- COMPILING  ------]")
     model = deepkt.DKTModel(nb_features=nb_features,
                             nb_skills=nb_skills,
-                            hidden_units=args.hidden_units)
+                            hidden_units=args.hidden_units, LSTM=True)
     model.compile(
         optimizer='adam',
         metrics=[
@@ -42,19 +42,6 @@ def run(args):
     #model.load_weights(args.w)
     model.evaluate(dataset=test_set, verbose=args.v)
     print("\n[--- TESTING DONE  ---]")
-
-    print(predict(model, test_set, 3, 0))
-
-def predict(model, test_set, student, KC):
-    test_student = list(test_set)[student]
-    pred = model.predict(test_student)[0]
-    print(pred)
-    pred = pred[-1]
-    if pred[KC] > .50:
-        return 1
-    else:
-        return 0
-
 
 def parse_args():
     parser = argparse.ArgumentParser(prog="DeepKT Example")
