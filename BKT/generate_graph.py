@@ -30,25 +30,26 @@ def get_predict_score(student_id) -> list:
     
     return labels_for_correct
 
-if __name__ == "__main__":
-    student_list = get_student_list("./BKT/inputs/clean_data KC (Original).txt")
-    # true_labels = [1 if int(i)==1 else 0 for i in get_true_labels("Stu_0dc180ab4196c3c75b62bfc5e01e6ee2")]
-    # predict_scores = [float(i) for i in get_predict_score("Stu_0dc180ab4196c3c75b62bfc5e01e6ee2")]
-    # tp, fp, threshold = roc_curve(true_labels,predict_scores, pos_label=1)
-    # print(roc_auc_score(true_labels, predict_scores))
-    # plt.plot(fp,tp)
-    
+def get_roc_curve(student_list: list) -> tuple:
     true_labels = []
     predict_scores = []
     for student in student_list:
         true_labels += [1 if int(i)==1 else 0 for i in get_true_labels(student)]
         predict_scores += [float(i) for i in get_predict_score(student)]
         
-    fpr, tpr, threshold = roc_curve(true_labels,predict_scores, pos_label=1)
-    auc = roc_auc_score(true_labels, predict_scores, labels=[0,1])
-    plt.plot([0,1],[0,1], '--', label="random")
-    plt.plot(fpr,tpr, label=f"BKT (AUC={auc:.3f})")
+    return (*roc_curve(true_labels,predict_scores, pos_label=1), roc_auc_score(true_labels, predict_scores, labels=[0,1]) )
+
+
+if __name__ == "__main__":
+    student_list = get_student_list("./BKT/inputs/clean_data KC (Original).txt")
+    
     plt.xlabel("False Positive Rate")
     plt.ylabel("True Positive Rate")
+    
+    plt.plot([0,1],[0,1], '--', label="random")
+    
+    fpr, tpr, threshold, auc = get_roc_curve(student_list)
+    plt.plot(fpr,tpr, label=f"BKT (AUC={auc:.3f})")
+    
     plt.legend()
     plt.show()
