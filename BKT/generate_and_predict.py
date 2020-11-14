@@ -36,6 +36,6 @@ if __name__ == "__main__":
     student_list = get_student_list(path)
     print(len(student_list))
     
-    # generate_models(student_list, KNOWLEDGE_COMPONENT)
+    generate_models(student_list, KNOWLEDGE_COMPONENT)
     predict_test_data(student_list, KNOWLEDGE_COMPONENT)
     
