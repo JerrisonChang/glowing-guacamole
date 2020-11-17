@@ -72,10 +72,26 @@ def get_rnn_roc_curve(file_path: str) -> tuple:
 
     return (fpr, tpr, threshold, auc_socre)
 
+def plot_n_components():
+    Path_BKT = "./BKT/bkt_accuracies.csv"
+    Path_rnn = "./rnn_accuracy.csv"
+    Path_lstm = "./lstm_accuracy.csv"
 
+    plt.figure()
+    plt.xlabel("number of components")
+    plt.ylabel("Accuracy")
 
+    for name, path in [('BKT', Path_BKT),('RNN', Path_rnn),('LSTM',Path_lstm)]:
+        df = pd.read_csv(path)
+        accuracies = df['accuracy'].tolist()
+        x_axis = [i for i in range(1, len(accuracies)+1)]
+        plt.plot(x_axis,accuracies,label=f"{name}")
+    
+    plt.legend()
+    plt.show()
 
 if __name__ == "__main__":
     student_list = get_student_list("./BKT/inputs/clean_data KC (Original).txt")
     
-    generate_roc_curves(student_list)
+    # generate_roc_curves(student_list)
+    plot_n_components()
