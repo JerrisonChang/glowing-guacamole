@@ -109,20 +109,24 @@ if __name__ == "__main__":
     # with open(clean_data_path, 'r') as f:
     #     data = f.readlines()
 
-    # for i in range(1, len(kc_list)+1):
     #     create_data_with_n_KC(kc_list, data, i)
-
-    for i in range(1,len(kc_list)):
+    accuracies = []
+    for i in range(1,len(kc_list)+1):
         # create_train_predict(i)
         
         student_list = get_student_list(i)
         # # generate model
         # generate_model(student_list,i)
 
-        # generate predict model
+        # # generate predict model
         # generate_predict_files(student_list, i)
 
-        # get accuracty score
-        print(get_accuracy(student_list,i))
-        
-    # print(get_KC_list(clean_data_path))
+        # # get accuracty score
+        accuracies.append(get_accuracy(student_list,i))
+    
+    df = pd.DataFrame({
+        'KC number': [i for i in range(1, len(kc_list)+1)],
+        'accuracy': accuracies
+    })
+    
+    df.to_csv('./BKT/bkt_accuracies.csv',index=False)
