@@ -28,7 +28,7 @@ wins = list()
 fails = list()
 user_skill_dict = dict()
 for i in range(len(df.index)):
-    user = df['user'].values[1]
+    user = df['user'].values[i]
     skill = df['skill'].values[i]
     correct = df['correct'].values[i]
 
@@ -54,3 +54,9 @@ df['item_id'] = df['item']
 
 df[['user', 'item', 'skill', 'correct', 'wins', 'fails']].to_csv('data.csv', index=False)
 df[['user_id', 'item_id', 'correct']].to_csv('needed.csv', index=False)
+
+items_set = set(df['item'].values)
+users_set = set(df['user'].values)
+skills_set = set(df['skill'].values)
+
+print(len(items_set), len(users_set), len(skills_set))

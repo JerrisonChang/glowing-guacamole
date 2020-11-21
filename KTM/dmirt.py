@@ -6,7 +6,7 @@ from keras.layers import Dense, Embedding, Flatten, Add, Activation, Dot, Input,
 from keras.utils import plot_model
 from keras.constraints import NonNeg
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_auc_score, log_loss
 import pandas as pd
 import numpy as np
 from dataio import load_folds
@@ -145,7 +145,7 @@ for i, (filename, valid) in enumerate(zip(test_folds, valid_folds)):
     print(model.summary())
     # sys.exit(0)
 
-    plot_model(model, to_file='model.png')
+    #plot_model(model, to_file='model.png')
 
     # print(model.predict(X_train).shape)
     # sys.exit(0)
@@ -189,11 +189,12 @@ for i, (filename, valid) in enumerate(zip(test_folds, valid_folds)):
 
     y_pred = model.predict(X_test)
     print('Test AUC', roc_auc_score(y_test, y_pred))
+    print('Test NLL', log_loss(y_test, y_pred))
 
-    register_embedding(EMBEDDINGS_TENSOR_NAME, META_DATA_FNAME, LOG_DIR)
+    #register_embedding(EMBEDDINGS_TENSOR_NAME, META_DATA_FNAME, LOG_DIR)
     weights = model.layers[2].get_weights()[0]
     print(weights.shape)
-    save_labels_tsv(np.ones(len(weights)), META_DATA_FNAME, LOG_DIR)
+    #save_labels_tsv(np.ones(len(weights)), META_DATA_FNAME, LOG_DIR)
     embeddings = tf.Variable(weights, name=EMBEDDINGS_TENSOR_NAME)
     
     saver = tf.compat.v1.train.Saver([embeddings])  # Must pass list or dict

@@ -26,14 +26,13 @@ options = parser.parse_args()
 
 
 # SENSITIVE_ATTR = "school_id"
-SENSITIVE_ATTR = "timestamp"
+SENSITIVE_ATTR = "user_id"
 
-# df = pd.read_csv("data/openlab-train/needed.csv")  # Should fix this
-# df["weight"] = df.groupby(SENSITIVE_ATTR).user_id.transform('nunique')
-# df["weight"] = df.groupby(SENSITIVE_ATTR).user_id.transform('count')
-# df["weight"] = 1000 * (df[SENSITIVE_ATTR] % 2 == 1) + 1
-# df["weight"] = 1
-# df["weight"] = 1 / df["weight"]
+df = pd.read_csv("data/geometry/needed.csv")  # Should fix this
+#df["weight"] = df.groupby(SENSITIVE_ATTR).count()
+df["weight"] = 1000 * (df[SENSITIVE_ATTR] % 2 == 1) + 1
+df["weight"] = 1
+df["weight"] = 1 / df["weight"]
 # sys.exit(0)
 
 FULL = False
@@ -65,7 +64,7 @@ y_tests = {}
 FOLD = '50weak'
 
 # folds = glob.glob(os.path.join(folder, 'folds/{}fold*.npy'.format(nb_samples)))
-test_folds, valid_folds = load_folds(options)
+test_folds, valid_folds = load_folds(folder, options, df)
 if test_folds and not FULL:
     print(test_folds)
     for i, filename in enumerate(test_folds):

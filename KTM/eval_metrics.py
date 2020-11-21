@@ -144,8 +144,8 @@ def all_metrics(results, test):
         x.append(-xi)
         nb.append(-yi)
         val += 1
-    plt.stem(x, nb, use_line_collection=True)
-    plt.show()
+    #plt.stem(x, nb)
+    #plt.show()
 
     # Display ids of the subgroups (sensitive attribute) that have the lowest/highest AUC
     print("Lowest AUC = {} on subgroup {}".format(np.around(np.min(metrics_per_sensitive_attr['auc']),5),

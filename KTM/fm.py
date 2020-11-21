@@ -92,16 +92,19 @@ except ValueError:
 iso_date = datetime.now().isoformat()
 np.save(os.path.join(folder, 'w.npy'), np.array(model.weights))
 np.save(os.path.join(folder, 'V.npy'), model.pairwise_interactions)
+
 saved_results = {
     'predictions': predictions,
     'model': vars(options),
     'mu': model.global_bias,
     'folds': FOLD
 }
+
 with open(os.path.join(folder, 'results-{}.json'.format(iso_date)), 'w') as f:
     json.dump(saved_results, f)
 
 df = pd.read_csv(os.path.join(folder, 'needed.csv'))
+
 indices = np.load(folds[0])
 test = df.iloc[indices]
     

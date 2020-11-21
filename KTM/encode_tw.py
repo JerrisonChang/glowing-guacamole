@@ -134,7 +134,7 @@ if options.tw or options.pfa:  # Build time windows features
     for i_sample, user, item_id, t, correct, skill_ids in zip(
            df['i'], df['user'], df['item_id'], df['timestamp'], df['correct'],
            df['skill_ids']):
-        for skill_id in q_mat[item_id] or skill_ids.split('~~'):  # Fallback
+        for skill_id in q_mat[item_id]:  # Fallback
             skill_id = int(skill_id)
             add(i_sample, codes[skill_id], 1)
             for pos, value in enumerate(q[user, skill_id].get_counters(t)):
@@ -161,3 +161,4 @@ dt = time.time()
 save_npz('X-{}.npz'.format(suffix), X)
 np.save('y-{}.npy'.format(suffix), y)
 print('Saving', time.time() - dt)
+

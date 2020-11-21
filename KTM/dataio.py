@@ -65,11 +65,8 @@ def save_weak_folds(full, nb_folds=5):
 def load_folds(folder, options, df):
     nb_samples = len(df)
     valid_folds = None
-    if options.test:
-        test_folds = [options.test]
-    else:
-        test_folds = sorted(glob.glob(os.path.join(folder, 'folds/60weak{}fold*.npy'.format(nb_samples))))
-        valid_folds = sorted(glob.glob(os.path.join(folder, 'folds/36weak{}valid*.npy'.format(nb_samples))))
+    test_folds = sorted(glob.glob(os.path.join(folder, 'folds/60weak{}fold*.npy'.format(nb_samples))))
+    valid_folds = sorted(glob.glob(os.path.join(folder, 'folds/36weak{}valid*.npy'.format(nb_samples))))
     if not test_folds:
         print('No folds')
         test_folds, valid_folds = save_folds(df)
