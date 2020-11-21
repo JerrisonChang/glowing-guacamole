@@ -61,7 +61,11 @@ def get_metrics(y_real, y_pred):
         pred = y_pred[-how_many_last:]
         print('On last {} steps'.format(how_many_last))
         print('test acc', np.mean(real == np.round(pred)))
-        print('test auc', roc_auc_score(real, pred))
+        try:
+            print('test auc', roc_auc_score(real, pred))
+            print('test NLL', ll(real, pred))
+        except:
+            pass
 
 
 class OMIRT:
@@ -281,10 +285,16 @@ class OMIRT:
         # print('full fit', X.shape, y.shape)
         
         for step in tqdm(range(self.n_epoch)):
+            '''
             if step % 10 == 0:
                 self.compute_metrics(step)
                 pred = self.predict(self.X_train)
                 print('loss', ll(self.y_train, pred), self.V.sum(), self.w.sum())
+            '''
+
+            self.compute_metrics(step)
+            pred = self.predict(self.X_train)
+            print('loss', ll(self.y_train, pred), self.V.sum(), self.w.sum())
 
             # self.mu -= self.GAMMA * grad(lambda mu: self.loss(X, y, mu, self.w, self.V))(self.mu)
             gradient = grad(lambda w: self.loss(self.mu, w, self.V, self.item_bias, self.item_embed, self.item_slopes))(self.w)
@@ -577,7 +587,7 @@ if __name__ == '__main__':
     nb_samples = len(y)
     
     # Are folds fixed already?
-    test_folds, valid_folds = load_folds(options)
+    test_folds, valid_folds = load_folds(folder,options, df)
 
     i_ = {}
     for i, (filename, valid) in enumerate(zip(test_folds, valid_folds)):
@@ -618,18 +628,20 @@ if __name__ == '__main__':
                     lambda_=options.reg, gamma=options.lr, gamma_v=options.lr2,
                     n_epoch=options.epoch, fair=options.fair, training=options.training)
 
-        '''if options.training == 'auc':
+        if options.training == 'auc':
             ofm.full_relaxed_fit()
         elif options.training == 'deep':
             # ofm.deep_fit()
             ofm.tf_fit()
         else:
-            ofm.full_fit()'''
+            ofm.full_fit()
 
         ofm.load(folder)
         y_pred = ofm.predict(ofm.X_train)
         print('train auc', roc_auc_score(ofm.y_train, y_pred))
+        print('train NLL', ll(ofm.y_train, y_pred))
 
+        print(dict(ofm.metrics))
         for metric in ofm.metrics:
             if metric == 'step':
                 continue
