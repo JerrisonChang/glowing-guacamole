@@ -2,7 +2,7 @@
 This is a repository for ICSI531F20 Project for Team3
 
 ## Install
-First make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [pyhton3](https://www.python.org/downloads/) installed
+First make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [python3](https://www.python.org/downloads/) installed
 Run the following command in your terminal:
 ```bash
 git --version
