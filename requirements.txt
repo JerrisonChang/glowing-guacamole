@@ -1,0 +1,13 @@
+pandas
+tensorflow
+numpy
+argparse
+tfds-nightly
+scipy
+scikit-learn
+pywFM
+PyYAML
+matplotlib
+autograd
+tqdm
+keras
