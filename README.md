@@ -23,7 +23,7 @@ The dataset is from a data repository for the EDM community: The PSLC DataShop.
 This dataset has data from the area unit of the Geometry Cognitive Tutor course as it was used during the school year 1996-1997.  
 
 ## Bayesian Knowledge Tracing (BKT)
-Michael Yudelson's [Standard Knowledge Tracing Package] (http://www.davidsbatista.net/blog/2018/08/19/NLP_Metrics/) is used for our experiment on our dataset.
+Michael Yudelson's [Standard Knowledge Tracing Package](http://www.davidsbatista.net/blog/2018/08/19/NLP_Metrics/) is used for our experiment on our dataset.
 
 The script in this section is developped using VS code, so the path defined in the scripts are with respect to the project root folder. As a result, when you run the code, make sure your current directory is at the top level (`glowing-guacamole`). Alternatively, open the `glowing-guacamole` folder with VS code and run the scripts described in this section.
 ### Getting and Compiling the BKT package
@@ -32,9 +32,9 @@ After running
 git clone https://github.com/IEDMS/standard-bkt
 ```
 ### Prerequisit for Different Platforms
-- MacOX: if the precompiled files `predicthmm` and `trainhmm` under BKT folder doesn't work, you would need Xcode command line tools installed. g++/gcc compiler with Open MP (no longer bundled with Mac OS X by default) could be downloaded from [hpc.sourceforge.net](http://hpc.sourceforge.net/)
-- Windows: you might need to install `cygwin` and have `g++/gcc` compiler available and be sure to install `make` utility as well.
-- Linux: the `g++/gcc` compiler and Open MP library should already be installed, you can proceed with the next step.
+- **MacOX:**<br/>If the precompiled files `predicthmm` and `trainhmm` under BKT folder doesn't work, you would need Xcode command line tools installed. g++/gcc compiler with Open MP (no longer bundled with Mac OS X by default) could be downloaded from [hpc.sourceforge.net](http://hpc.sourceforge.net/)
+- **Windows:**<br/>you might need to install `cygwin` and have `g++/gcc` compiler available and be sure to install `make` utility as well.
+- **Linux:**<br/>the `g++/gcc` compiler and Open MP library should already be installed, you can proceed with the next step.
 
 navigate to the folder and issue the `make all` command, this will produce the `predicthmm` and `trainhmm` files that we will use. Copy them and paste them under the BKT folder.
 
