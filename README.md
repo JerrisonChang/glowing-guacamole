@@ -23,7 +23,7 @@ The dataset is from a data repository for the EDM community: The PSLC DataShop.
 This dataset has data from the area unit of the Geometry Cognitive Tutor course as it was used during the school year 1996-1997.  
 
 ## Bayesian Knowledge Tracing (BKT)
-Michael Yudelson's [Standard Knowledge Tracing Package](http://www.davidsbatista.net/blog/2018/08/19/NLP_Metrics/) is used for our experiment on our dataset.
+Michael Yudelson's [Standard Knowledge Tracing Package](https://iedms.github.io/standard-bkt/) is used for our experiment on our dataset.
 
 The script in this section is developped using VS code, so the path defined in the scripts are with respect to the project root folder. As a result, when you run the code, make sure your current directory is at the top level (`glowing-guacamole`). Alternatively, open the `glowing-guacamole` folder with VS code and run the scripts described in this section.
 ### Getting and Compiling the BKT package
