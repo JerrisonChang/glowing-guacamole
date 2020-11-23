@@ -151,5 +151,5 @@ And when d > 0 it will load the factorization machine model
 
 To run the IRT model, run:
 ```bash
-python3 dmirt.py data/assist09/needed.csv
+python3 dmirt.py data/geometry/needed.csv
 ```
