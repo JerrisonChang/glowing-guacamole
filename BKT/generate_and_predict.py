@@ -36,6 +36,10 @@ if __name__ == "__main__":
     student_list = get_student_list(path)
     print(len(student_list))
     
+    for i in ['./BKT/model/','./BKT/output/']:
+        if not os.path.isdir(i):
+            os.makedirs(i)
+
     generate_models(student_list, KNOWLEDGE_COMPONENT)
     predict_test_data(student_list, KNOWLEDGE_COMPONENT)
     

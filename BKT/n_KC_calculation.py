@@ -104,24 +104,27 @@ def get_accuracy(student_list: list, n: int) -> float:
 
 if __name__ == "__main__":
     clean_data_path = "./BKT/inputs/clean_data KC (Original).txt"
+    for i in ['./BKT/model/n_KCs','./BKT/output/n_KCs']:
+        if not os.path.isdir(i):
+            os.makedirs(i)
     
     kc_list = get_KC_list(clean_data_path)
-    # with open(clean_data_path, 'r') as f:
-    #     data = f.readlines()
+    with open(clean_data_path, 'r') as f:
+        data = f.readlines()
 
-    #     create_data_with_n_KC(kc_list, data, i)
     accuracies = []
     for i in range(1,len(kc_list)+1):
-        # create_train_predict(i)
+        create_data_with_n_KC(kc_list, data, i)
+        create_train_predict(i)
         
         student_list = get_student_list(i)
-        # # generate model
-        # generate_model(student_list,i)
+        # generate model
+        generate_model(student_list,i)
 
-        # # generate predict model
-        # generate_predict_files(student_list, i)
+        # generate predict model
+        generate_predict_files(student_list, i)
 
-        # # get accuracty score
+        # get accuracty score
         accuracies.append(get_accuracy(student_list,i))
     
     df = pd.DataFrame({
