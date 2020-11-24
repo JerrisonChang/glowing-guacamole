@@ -1,13 +1,13 @@
 pandas
 numpy
 argparse
-scipy
-scikit-learn
 pywFM
 PyYAML
 matplotlib
 autograd
 tqdm
 keras
+scipy
+scikit-learn
 tfds-nightly
 tensorflow
