@@ -9,5 +9,5 @@ matplotlib
 autograd
 tqdm
 keras
-tensorflow
 tfds-nightly
+tensorflow
