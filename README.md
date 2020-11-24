@@ -14,7 +14,7 @@ To install the repository run the follwing commands in your terminal:
 git clone https://github.com/JerrisonChang/glowing-guacamole.git # Clones the repository to your local machine
 cd glowing-guacamole # Moves you into the repository
 pip3 install --upgrade pip # Upgrades pip to its latest version
-pip install -r requirements.txt # Will install all of the required packages to run the code
+pip3 install -r requirements.txt # Will install all of the required packages to run the code
 ```
 
 ## Dataset
