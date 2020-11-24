@@ -131,16 +131,17 @@ This will also generate folds for the time windows which will be used in the MIR
 
 To run the logistic regression model (d = 0), run the following:
 ```bash
-python3 lr.py data/geometry/X-swf.npz
+python3 lr.py data/geometry/X-ui.npz
 ```
 
 And to run the factorization machines (d > 0), run:
 ```bash
-python3 fm.py --d 5 data/geometry/X-swf.npz # --d is the number of dimensions to run the factorization machine with
+python3 fm.py --d 5 data/geometry/X-ui.npz # --d is the number of dimensions to run the factorization machine with
 ```
-The above command will run the factorization machine on a Q-matrix with encodeings on skills, wins, and fails up to 5 dimensions
+The above command will run the factorization machine on a Q-matrix with encodeings on users and items up to 5 dimensions
 
 To run the MIRT model:
+ENCODING, LR AND FM MUST HAVE BEEN RAN FOR USERS AND ITEMS FIRST. WILL NOT WORK WHEN RUN ON OTHER FEATURES
 ```bash
 python3 omirt.py --d 0 data/geometry/needed.csv  # Will load LR: coef0.npy
 python3 omirt.py --d 5 data/geometry/needed.csv  # Will load FM: w.npy and V.npy
