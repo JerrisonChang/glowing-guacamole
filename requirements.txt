@@ -1,8 +1,6 @@
 pandas
-tensorflow
 numpy
 argparse
-tfds-nightly
 scipy
 scikit-learn
 pywFM
@@ -11,3 +9,5 @@ matplotlib
 autograd
 tqdm
 keras
+tensorflow
+tfds-nightly
